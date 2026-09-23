@@ -10,10 +10,10 @@ def register_peer(command): # give in the form of register ⟨peer-name⟩ ⟨IP
     mport = fields[3]
     pport = fields [4]
 
-    if peer_name in peers:
+    if peer_name in peers: # check if names are unique 
        return "FAILURE|names must be unique "
-    for people in peers.values():
-       used=(people[mport], people[pport])
+    for people in peers.values():   #check if ports are not unqiue 
+       used=(people[mport], people[pport])   
        if mport in used or pport in used:
           return "FAILURE| ports must be unique"
        
