@@ -11,9 +11,9 @@ def register_peer(command): # give in the form of register ⟨peer-name⟩ ⟨IP
     pport = int(fields[4]) # grab the pport 
 
     if peer_name in peers: # check if names are unique 
-       return "FAILURE|names must be unique "
-    if mport==pport:
-        return "FAILURE|WHY WOULD YOUR PORTS BE MATCHING"
+       return "FAILURE|names must be unique"
+    if mport==pport: # check if ports match
+        return "FAILURE|Port can not be the same"
     for people in peers.values():   #check if ports are not unqiue 
        used=(people["m_port"], people["p_port"])   
        if mport in used or pport in used:
