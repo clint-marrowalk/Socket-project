@@ -17,9 +17,8 @@ def register_peer(command): # give in the form of register ⟨peer-name⟩ ⟨IP
     for people in peers.values():   #check if ports are not unqiue 
        used=(people["m_port"], people["p_port"])   
        if mport in used or pport in used:
-          return "FAILURE| ports must be unique"
+          return "FAILURE|ports must be unique"
 
     peers[peer_name]= {"ipv4":Ipv4, "m_port":mport, "p_port":pport, "state":"Free"} 
     return  "SUCCESS"
-
 
