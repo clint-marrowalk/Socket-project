@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import socket   # the import is required for the project 
 import random 
 
@@ -52,21 +53,11 @@ def setup_dht(command): # given in the form of setup-dht|(peer-name)|(n)|(YYYY)
       start_id+=1
    strings=[] #lets us use a return statment with all the strings
    for peer in members:
-      strings.append(peer+","+members[peer]["ipv4"]+","+members[peer]["p_port"])
+      strings.append(peer+","+str(members[peer]["ipv4"])+","+str(members[peer]["p_port"])) 
+      #/ the str conver the ports and the ip to strings so they can be added/#
    return "SUCCESS|"+"|".join(strings)
    
 
-
-      
-
-print(register_peer("register|Ali|127.0.0.1|11001|11002"))
-print(register_peer("register|Bob|127.0.0.1|11011|11012"))
-print(register_peer("register|Cat|127.0.0.1|11021|11022"))
-print(register_peer("register|Dan|127.0.0.1|11031|11032"))
-print(setup_dht("setup-dht|Ali|3|1950"))
-print(setup_dht("setup-dht|Ali|3|1950"))   # should now fail, since a DHT exists
-print(peers)      # check Ali's state, and two others' states changed
-print(members)
 
 
    
