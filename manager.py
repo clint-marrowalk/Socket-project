@@ -37,6 +37,8 @@ def setup_dht(command): # given in the form of setup-dht|(peer-name)|(n)|(YYYY)
       return "FALURE|NOT ENOUGH MEMEBRS"
    if members:    # empty dictionary are false 
       return "FALURE|DHT SET UP BEFOREHAND"
-   members_to_add=randomint(1,n-1)
+   peers[peer_name]["state"]="Leader"
+   members[peer_name]={"ipv4":peers[peer_name]["ipv4"],"p_port":peers[peer_name]["p_port"],"id":0}
+
    
    
