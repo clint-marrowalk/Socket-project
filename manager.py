@@ -38,11 +38,35 @@ def setup_dht(command): # given in the form of setup-dht|(peer-name)|(n)|(YYYY)
    if members:    # empty dictionary are false 
       return "FALURE|DHT SET UP BEFOREHAND"
    peers[peer_name]["state"]="Leader"
+
    members[peer_name]={"ipv4":peers[peer_name]["ipv4"],"p_port":peers[peer_name]["p_port"],"id":0} # will make the printing easier
-   free_peers[] # the list only needs to keep track of names
+   free_peers=[] # the list only needs to keep track of names
+   for peer in peers: #get every free peer
+      if peers[peer]["state"]=="Free":
+         free_peers.append(peer) 
+   chosen=random.sample(free_peers,number-1) # the python random libary coming in
+   start_id=1
+   for peer in chosen:
+      members[peer]={"ipv4":peers[peer]["ipv4"],"p_port":peers[peer]["p_port"],"id":start_id} # add the peer to the members
+      peers[peer]["state"]="InDHT"
+      start_id+=1
+   strings=[] #lets us use a return statment with all the strings
+   for peer in members:
+      strings.append(peer+","+members[peer]["ipv4"]+","+members[peer]["p_port"])
+   return "SUCCESS|"+"|".join(strings)
+   
+
+
       
 
-
+print(register_peer("register|Ali|127.0.0.1|11001|11002"))
+print(register_peer("register|Bob|127.0.0.1|11011|11012"))
+print(register_peer("register|Cat|127.0.0.1|11021|11022"))
+print(register_peer("register|Dan|127.0.0.1|11031|11032"))
+print(setup_dht("setup-dht|Ali|3|1950"))
+print(setup_dht("setup-dht|Ali|3|1950"))   # should now fail, since a DHT exists
+print(peers)      # check Ali's state, and two others' states changed
+print(members)
 
 
    
