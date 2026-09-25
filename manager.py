@@ -40,8 +40,6 @@ def setup_dht(command): # given in the form of setup-dht|(peer-name)|(n)|(YYYY)
    peers[peer_name]["state"]="Leader"
    members[peer_name]={"ipv4":peers[peer_name]["ipv4"],"p_port":peers[peer_name]["p_port"],"id":0} # will make the printing easier
    free_peers[] # the list only needs to keep track of names
-   for peer in peers:
-      if peers[peer]["state"]=="Free":
       
 
 
