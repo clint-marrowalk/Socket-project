@@ -6,16 +6,18 @@ peers= {} # stores all the info on each peer
 members={} # stores members of the DHT
 
 
-def register_peer(command): # given in the form of register|(peer-name)(IPv4-address)|(m-port)|(p-port)
+def register_peer(command): # given in the form of register|(peer-name)|(IPv4-address)|(m-port)|(p-port)
     fields=command.split("|")
     peer_name = fields[1] # grab the name 
     Ipv4 = fields[2]   # grab the ip addy
     mport = int(fields[3])  # grab the mport
     pport = int(fields[4]) # grab the pport 
 
-    if peer_name in peers: # check if names are unique 
+    if not(peer_name.isalpha()) or len(peer_name)>=16:
+      return "FAILURE|names must be aphabetic and at most 15 charaters long"
+    elif peer_name in peers: # check if names are unique 
        return "FAILURE|names must be unique"
-    if mport==pport: # check if ports match
+    elif mport==pport: # check if ports match
         return "FAILURE|Port can not be the same"
     for people in peers.values():   #check if ports are not unqiue 
        used=(people["m_port"], people["p_port"])   
@@ -30,14 +32,14 @@ def setup_dht(command): # given in the form of setup-dht|(peer-name)|(n)|(YYYY)
    peer_name=fields[1]  # gets name
    number=int(fields[2]) # gets N
    year=int(fields[3]) #gets the year 
-   if (not(peer_name in peers)):      # all of these handle falure conditions
+   if (not(peer_name in peers)):      # all of these handle failure conditions
       return "FAILURE|PEER NOT REGISTERED"
-   if number<3:
+   elif number<3:
       return "FAILURE|N MUST BE 3 OR GREATER"
-   if len(peers)<number:
-      return "FALURE|NOT ENOUGH MEMEBRS"
-   if members:    # empty dictionary are false 
-      return "FALURE|DHT SET UP BEFOREHAND"
+   elif len(peers)<number:
+      return "FAILURE|NOT ENOUGH MEMEBRS"
+   elif members:    # empty dictionary are false 
+      return "FAILURE|DHT SET UP BEFOREHAND"
    peers[peer_name]["state"]="Leader"
 
    members[peer_name]={"ipv4":peers[peer_name]["ipv4"],"p_port":peers[peer_name]["p_port"],"id":0} # will make the printing easier
@@ -56,7 +58,16 @@ def setup_dht(command): # given in the form of setup-dht|(peer-name)|(n)|(YYYY)
       strings.append(peer+","+str(members[peer]["ipv4"])+","+str(members[peer]["p_port"])) 
       #/ the str conver the ports and the ip to strings so they can be added/#
    return "SUCCESS|"+"|".join(strings)
-   
+
+def dht_complete(command): # given in the form of dht-complete|(peer-name)
+   fields=command.split("|")
+   peer_name=fields[1]
+   if not(peer_name in members):
+      return "FAILURE|"+peer_name+"not in the DHT"
+   elif not (members[peer_name]["id"]==0):
+      return "FAILURE|setup with "+peer_name+" as leader"
+   else:
+      return "SUCCESS|now accpeting commands"
 
 
 
