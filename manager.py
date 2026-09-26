@@ -1,6 +1,7 @@
 #!/usr/bin/python3
-import socket   # the import is required for the project 
-import random 
+import socket as s   # the import is required for the project 
+import random   # to be ablue to select at random
+import sys # to read from stdin
 
 peers= {} # stores all the info on each peer
 members={} # stores members of the DHT
@@ -70,6 +71,10 @@ def dht_complete(command): # given in the form of dht-complete|(peer-name)
       return "SUCCESS|now accpeting commands"
 
 
+port = int(sys.argv[1]) #read the port from standerd input 
+host_socket=s.socket(s.AF_INET,s.SOCK_DGRAM) # create the socket
+host_socket.bind(("",port)) # bind the socket
+while True:
+   message,client_addy = host_socket.recvfrom(2048)
+   decoded_mess=message.decode()
 
-   
-   
