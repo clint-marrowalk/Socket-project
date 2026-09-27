@@ -5,7 +5,7 @@ import sys # to read from stdin
 
 peers= {} # stores all the info on each peer
 members={} # stores members of the DHT
-
+block = False # to blocks until dht_complte
 
 def register_peer(command): # given in the form of register|(peer-name)|(IPv4-address)|(m-port)|(p-port)
     fields=command.split("|")
@@ -56,6 +56,8 @@ def setup_dht(command): # given in the form of setup-dht|(peer-name)|(n)|(YYYY)
    for peer in members:
       strings.append(peer+","+str(members[peer]["ipv4"])+","+str(members[peer]["p_port"])) 
       #/ the str conver the ports and the ip to strings so they can be added/#
+   global block
+   block=True # can't take commands till dht complte   
    return "SUCCESS|"+"|".join(strings)
 
 def dht_complete(command): # given in the form of dht-complete|(peer-name)
@@ -66,6 +68,8 @@ def dht_complete(command): # given in the form of dht-complete|(peer-name)
    elif not (members[peer_name]["id"]==0):
       return "FAILURE|setup with "+peer_name+" as leader"
    else:
+      global block
+      block=False # can now take commands 
       return "SUCCESS|now accpeting commands"
 
 
