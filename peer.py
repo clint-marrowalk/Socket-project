@@ -16,8 +16,8 @@ while True:
     reply , addy =peer_socket.recvfrom(2048) #number comes from the sildes
     reply_text=reply.decode()
     reply_fields=reply_text.split("|")
-    if mess_fields[0]=="register" and reply_fields[0]=="SUCCESS":
-        
-  
+    if mess_fields[0]=="register" and reply_fields[0]=="SUCCESS": # check if the register worked
+        peer_to_peer_socket=socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # create the socket
+        peer_to_peer_socket.bind(("",int(mess_fields[4])))
 
 
