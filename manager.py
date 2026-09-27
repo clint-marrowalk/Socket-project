@@ -79,4 +79,18 @@ host_socket.bind(("",port)) # bind the socket
 while True:
    message,client_addy = host_socket.recvfrom(2048) #number comes from the sildes
    decoded_mess=message.decode()
+   fields=decoded_mess.split("|") 
+
+   if block and fields[0] != "dht-complete": # prevents from running till dht-complete
+      reply="FAILURE|DHT under construcion"
+   elif fields[0]=="register":    # checks for which commands to use
+      reply=register_peer(decoded_mess)
+   elif fields[0]=="setup-dht":
+      reply=setup_dht(decoded_mess)
+   elif fields[0]=="dht-complete":
+      reply=dht_complete(decoded_mess)
+   else:
+      reply= "FAILURE|Command not recognized"
+      
+   host_socket.sendto(reply.encode(),client_addy) # format from the slides
 
