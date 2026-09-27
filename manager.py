@@ -18,8 +18,6 @@ def register_peer(command): # given in the form of register|(peer-name)|(IPv4-ad
       return "FAILURE|names must be aphabetic and at most 15 charaters long"
     elif peer_name in peers: # check if names are unique 
        return "FAILURE|names must be unique"
-    elif mport==pport: # check if ports match
-        return "FAILURE|Port can not be the same"
     for people in peers.values():   #check if ports are not unqiue 
        used=(people["m_port"], people["p_port"])   
        if mport in used or pport in used:
