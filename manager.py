@@ -73,6 +73,6 @@ port = int(sys.argv[1]) #read the port from standerd input
 host_socket=s.socket(s.AF_INET,s.SOCK_DGRAM) # create the socket
 host_socket.bind(("",port)) # bind the socket
 while True:
-   message,client_addy = host_socket.recvfrom(2048)
+   message,client_addy = host_socket.recvfrom(2048) #number comes from the sildes
    decoded_mess=message.decode()
 
