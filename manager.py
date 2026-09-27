@@ -52,7 +52,7 @@ def setup_dht(command): # given in the form of setup-dht|(peer-name)|(n)|(YYYY)
       members[peer]={"ipv4":peers[peer]["ipv4"],"p_port":peers[peer]["p_port"],"id":start_id} # add the peer to the members
       peers[peer]["state"]="InDHT"
       start_id+=1
-   strings=[] #lets us use a return statment with all the strings
+   strings=[] #store all the members so we can return them in order
    for peer in members:
       strings.append(peer+","+str(members[peer]["ipv4"])+","+str(members[peer]["p_port"])) 
       #/ the str conver the ports and the ip to strings so they can be added/#
@@ -91,6 +91,6 @@ while True:
       reply=dht_complete(decoded_mess)
    else:
       reply= "FAILURE|Command not recognized"
-      
+
    host_socket.sendto(reply.encode(),client_addy) # format from the slides
 
